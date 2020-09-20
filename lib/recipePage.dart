@@ -32,7 +32,7 @@ class RecipePage extends StatelessWidget {
           padding: const EdgeInsets.fromLTRB(12, 16, 8, 16),
           child: Text(
             'Köttbullar med potatismos',
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+            style: Theme.of(context).textTheme.headline5,
           ),
         ),
         Container(

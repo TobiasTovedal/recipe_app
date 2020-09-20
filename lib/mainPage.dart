@@ -1,6 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_app/recipePage.dart';
 
+class Recipe {
+  String title;
+  var ingredients = <String>[];
+  var instructions = <String>[];
+
+  Recipe(this.title);
+}
+
 class MainPage extends StatelessWidget {
   final List entries = [
     'Köttbullar',
@@ -24,7 +32,7 @@ class MainPage extends StatelessWidget {
                 alignment: Alignment.centerLeft,
                 child: Text(
                   '${entries[index]}',
-                  style: Theme.of(context).textTheme.headline4,
+                  style: Theme.of(context).textTheme.headline6,
                 ),
               ),
             ),
