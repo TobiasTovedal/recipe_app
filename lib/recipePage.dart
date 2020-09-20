@@ -48,16 +48,11 @@ class RecipePage extends StatelessWidget {
             ],
           ),
         ),
-        RaisedButton(
-          child: Text('Back'),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
       ],
     );
 
     return Scaffold(
+      appBar: AppBar(title: Text('Recept page')),
       body: myList,
     );
   }

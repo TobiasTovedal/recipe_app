@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:recipe_app/addRecipePage.dart';
 import 'package:recipe_app/recipePage.dart';
 
 class Recipe {
@@ -47,7 +48,10 @@ class MainPage extends StatelessWidget {
           actions: [
             IconButton(
               icon: Icon(Icons.add),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => AddRecipePage()));
+              },
             )
           ],
         ),

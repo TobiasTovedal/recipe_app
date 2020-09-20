@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_app/mainPage.dart';
 import 'package:recipe_app/recipePage.dart';
+import 'package:recipe_app/addRecipePage.dart';
 
 void main() {
   runApp(Root());
@@ -20,6 +21,7 @@ class Root extends StatelessWidget {
       routes: {
         '/': (context) => MainPage(),
         '/recipePage': (context) => RecipePage(),
+        '/addRecipePage': (context) => AddRecipePage()
       },
     );
   }
