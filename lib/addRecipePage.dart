@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 class AddRecipePage extends StatelessWidget {
   Widget build(BuildContext context) {
+    final titleController = TextEditingController();
+
     Widget formList = ListView(
       padding: const EdgeInsets.all(16),
       children: [
@@ -10,6 +12,7 @@ class AddRecipePage extends StatelessWidget {
               icon: Icon(Icons.title),
               hintText: 'Name of your recipe',
               labelText: 'Title'),
+          controller: titleController,
         )
       ],
     );
@@ -17,14 +20,13 @@ class AddRecipePage extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           title: Text('Add page'),
-          actions: [
-            IconButton(
-              icon: Icon(Icons.arrow_back),
-              onPressed: () {
-                // Hoppa bakåt
-              },
-            )
-          ],
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            print(titleController.text);
+            Navigator.pop(context);
+          },
+          child: Icon(Icons.check),
         ),
         body: formList);
   }

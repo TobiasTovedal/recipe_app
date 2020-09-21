@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_app/addRecipePage.dart';
 import 'package:recipe_app/recipePage.dart';
+import 'dart:convert';
 
 class Recipe {
   String title;
-  var ingredients = <String>[];
-  var instructions = <String>[];
+  //var ingredients = <String>[];
+  //var instructions = <String>[];
 
   Recipe(this.title);
+
+  Recipe.fromJson(Map<String, dynamic> json) : title = json['title'];
+
+  Map<String, dynamic> toJson() => {'title': title};
 }
 
 class MainPage extends StatelessWidget {
