@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:recipe_app/addRecipePage.dart';
 import 'package:recipe_app/recipePage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart';
 import 'dart:convert';
 
 class Recipe extends ChangeNotifier {
@@ -11,8 +12,20 @@ class Recipe extends ChangeNotifier {
 
   Recipe(this.title);
 
-  void setTitle(String s) {
+  Future<void> setTitle(String s) async {
+    // Set title runtime
     title = s;
+
+    // Store title localy
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setString('title', s);
+    notifyListeners();
+  }
+
+  Future<void> loadTitle() async {
+    // Get title from local storage
+    final prefs = await SharedPreferences.getInstance();
+    title = prefs.getString('title') ?? 'No title';
     notifyListeners();
   }
 
@@ -67,6 +80,8 @@ class MainPage extends StatelessWidget {
           ],
         ),
         body: recipeList);
+
+    Provider.of<Recipe>(context, listen: false).loadTitle();
 
     return myScaffold;
   }
