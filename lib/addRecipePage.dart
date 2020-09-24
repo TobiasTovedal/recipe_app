@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:recipe_app/mainPage.dart';
 
 class AddRecipePage extends StatelessWidget {
   Widget build(BuildContext context) {
@@ -19,11 +21,16 @@ class AddRecipePage extends StatelessWidget {
 
     return Scaffold(
         appBar: AppBar(
-          title: Text('Add page'),
+          title: Consumer<Recipe>(builder: (context, recipe, child) {
+            print(recipe.title);
+            return Text('${recipe.title}');
+          }),
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            print(titleController.text);
+            //print(titleController.text);
+            Provider.of<Recipe>(context, listen: false)
+                .setTitle(titleController.text);
             Navigator.pop(context);
           },
           child: Icon(Icons.check),

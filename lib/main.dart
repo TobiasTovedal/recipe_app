@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:recipe_app/mainPage.dart';
 import 'package:recipe_app/recipePage.dart';
 import 'package:recipe_app/addRecipePage.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(Root());
+  runApp(
+      ChangeNotifierProvider(create: (context) => Recipe(null), child: Root()));
 }
 
 class Root extends StatelessWidget {
