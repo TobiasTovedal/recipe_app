@@ -5,8 +5,8 @@ import 'package:recipe_app/addRecipePage.dart';
 import 'package:provider/provider.dart';
 
 void main() {
-  runApp(
-      ChangeNotifierProvider(create: (context) => Recipe(null), child: Root()));
+  runApp(ChangeNotifierProvider(
+      create: (context) => Recipe(null, null), child: Root()));
 }
 
 class Root extends StatelessWidget {

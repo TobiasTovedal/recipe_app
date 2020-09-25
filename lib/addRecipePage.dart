@@ -5,6 +5,7 @@ import 'package:recipe_app/mainPage.dart';
 class AddRecipePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final titleController = TextEditingController();
+    final ingredientController = TextEditingController();
 
     Widget formList = ListView(
       padding: const EdgeInsets.all(16),
@@ -15,6 +16,13 @@ class AddRecipePage extends StatelessWidget {
               hintText: 'Name of your recipe',
               labelText: 'Title'),
           controller: titleController,
+        ),
+        TextFormField(
+          decoration: const InputDecoration(
+              icon: Icon(Icons.plus_one),
+              hintText: 'Give an ingredient',
+              labelText: 'Ingredient'),
+          controller: ingredientController,
         )
       ],
     );
@@ -23,15 +31,18 @@ class AddRecipePage extends StatelessWidget {
         appBar: AppBar(
           title: Consumer<Recipe>(builder: (context, recipe, child) {
             print(recipe.title);
-            return Text('${recipe.title}');
+            print(recipe.ingredient);
+            return Text('${recipe.title} + ${recipe.ingredient}');
           }),
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             //print(titleController.text);
+            Navigator.pop(context);
             Provider.of<Recipe>(context, listen: false)
                 .setTitle(titleController.text);
-            Navigator.pop(context);
+            Provider.of<Recipe>(context, listen: false)
+                .setIngredient(ingredientController.text);
           },
           child: Icon(Icons.check),
         ),

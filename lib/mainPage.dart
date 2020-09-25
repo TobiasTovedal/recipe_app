@@ -6,11 +6,11 @@ import 'package:provider/provider.dart';
 import 'dart:convert';
 
 class Recipe extends ChangeNotifier {
-  String title;
+  String title, ingredient;
   //var ingredients = <String>[];
   //var instructions = <String>[];
 
-  Recipe(this.title);
+  Recipe(this.title, this.ingredient);
 
   Future<void> setTitle(String s) async {
     // Set title runtime
@@ -29,9 +29,28 @@ class Recipe extends ChangeNotifier {
     notifyListeners();
   }
 
-  Recipe.fromJson(Map<String, dynamic> json) : title = json['title'];
+  Future<void> setIngredient(String s) async {
+    // Set ingredient runtime
+    ingredient = s;
 
-  Map<String, dynamic> toJson() => {'title': title};
+    // Store ingredient localy
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setString('ingredient', s);
+    notifyListeners();
+  }
+
+  Future<void> loadIngredient() async {
+    // Get ingredient from local storage
+    final prefs = await SharedPreferences.getInstance();
+    ingredient = prefs.getString('ingredient') ?? 'No ingredient';
+    notifyListeners();
+  }
+
+  Recipe.fromJson(Map<String, dynamic> json)
+      : title = json['title'],
+        ingredient = json['ingredient'];
+
+  Map<String, dynamic> toJson() => {'title': title, 'ingredient': ingredient};
 }
 
 class MainPage extends StatelessWidget {
@@ -82,6 +101,7 @@ class MainPage extends StatelessWidget {
         body: recipeList);
 
     Provider.of<Recipe>(context, listen: false).loadTitle();
+    Provider.of<Recipe>(context, listen: false).loadIngredient();
 
     return myScaffold;
   }
