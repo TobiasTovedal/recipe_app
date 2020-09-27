@@ -3,7 +3,7 @@ class Recipe {
   //var ingredients = <String>[];
   //var instructions = <String>[];
 
-  Recipe(this.title, this.ingredient);
+  Recipe({this.title, this.ingredient});
 
   Recipe.fromJson(Map<String, dynamic> json)
       : title = json['title'],
