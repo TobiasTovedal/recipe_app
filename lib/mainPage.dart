@@ -1,51 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/semantics.dart';
 import 'package:recipe_app/addRecipePage.dart';
 import 'package:recipe_app/recipePage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
 import 'dart:convert';
 
-class Recipe extends ChangeNotifier {
-  String title, ingredient;
-  //var ingredients = <String>[];
-  //var instructions = <String>[];
-
-  Recipe(this.title, this.ingredient);
-
-  Recipe.fromJson(Map<String, dynamic> json)
-      : title = json['title'],
-        ingredient = json['ingredient'];
-
-  Map<String, dynamic> toJson() => {'title': title, 'ingredient': ingredient};
-
-  Future<void> setJson(String _title, String _ingredient) async {
-    title = _title;
-    ingredient = _ingredient;
-
-    final prefs = await SharedPreferences.getInstance();
-    prefs.setString('recipeJson', jsonEncode(this));
-    notifyListeners();
-  }
-
-  Future<void> loadJson() async {
-    final prefs = await SharedPreferences.getInstance();
-    String jsonString = prefs.getString('recipeJson');
-    Map recipeMap = jsonDecode(jsonString);
-
-    title = Recipe.fromJson(recipeMap).title;
-    ingredient = Recipe.fromJson(recipeMap).ingredient;
-
-    print(jsonString);
-    notifyListeners();
-  }
+class MainPage extends StatefulWidget {
+  @override
+  _MainPageState createState() => _MainPageState();
 }
 
-class MainPage extends StatelessWidget {
+class _MainPageState extends State<MainPage> {
   final List entries = [
     'Köttbullar',
     'Pad Thai',
     'Grönsakssoppa',
   ];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -90,5 +67,11 @@ class MainPage extends StatelessWidget {
     Provider.of<Recipe>(context, listen: false).loadJson();
 
     return myScaffold;
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
   }
 }
