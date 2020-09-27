@@ -40,9 +40,7 @@ class AddRecipePage extends StatelessWidget {
             //print(titleController.text);
             Navigator.pop(context);
             Provider.of<Recipe>(context, listen: false)
-                .setTitle(titleController.text);
-            Provider.of<Recipe>(context, listen: false)
-                .setIngredient(ingredientController.text);
+                .setJson(titleController.text, ingredientController.text);
           },
           child: Icon(Icons.check),
         ),

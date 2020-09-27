@@ -12,45 +12,32 @@ class Recipe extends ChangeNotifier {
 
   Recipe(this.title, this.ingredient);
 
-  Future<void> setTitle(String s) async {
-    // Set title runtime
-    title = s;
-
-    // Store title localy
-    final prefs = await SharedPreferences.getInstance();
-    prefs.setString('title', s);
-    notifyListeners();
-  }
-
-  Future<void> loadTitle() async {
-    // Get title from local storage
-    final prefs = await SharedPreferences.getInstance();
-    title = prefs.getString('title') ?? 'No title';
-    notifyListeners();
-  }
-
-  Future<void> setIngredient(String s) async {
-    // Set ingredient runtime
-    ingredient = s;
-
-    // Store ingredient localy
-    final prefs = await SharedPreferences.getInstance();
-    prefs.setString('ingredient', s);
-    notifyListeners();
-  }
-
-  Future<void> loadIngredient() async {
-    // Get ingredient from local storage
-    final prefs = await SharedPreferences.getInstance();
-    ingredient = prefs.getString('ingredient') ?? 'No ingredient';
-    notifyListeners();
-  }
-
   Recipe.fromJson(Map<String, dynamic> json)
       : title = json['title'],
         ingredient = json['ingredient'];
 
   Map<String, dynamic> toJson() => {'title': title, 'ingredient': ingredient};
+
+  Future<void> setJson(String _title, String _ingredient) async {
+    title = _title;
+    ingredient = _ingredient;
+
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setString('recipeJson', jsonEncode(this));
+    notifyListeners();
+  }
+
+  Future<void> loadJson() async {
+    final prefs = await SharedPreferences.getInstance();
+    String jsonString = prefs.getString('recipeJson');
+    Map recipeMap = jsonDecode(jsonString);
+
+    title = Recipe.fromJson(recipeMap).title;
+    ingredient = Recipe.fromJson(recipeMap).ingredient;
+
+    print(jsonString);
+    notifyListeners();
+  }
 }
 
 class MainPage extends StatelessWidget {
@@ -100,8 +87,7 @@ class MainPage extends StatelessWidget {
         ),
         body: recipeList);
 
-    Provider.of<Recipe>(context, listen: false).loadTitle();
-    Provider.of<Recipe>(context, listen: false).loadIngredient();
+    Provider.of<Recipe>(context, listen: false).loadJson();
 
     return myScaffold;
   }
