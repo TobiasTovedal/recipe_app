@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/semantics.dart';
 import 'package:recipe_app/addRecipePage.dart';
 import 'package:recipe_app/recipePage.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:provider/provider.dart';
-import 'dart:convert';
 
 class MainPage extends StatefulWidget {
   @override
@@ -63,8 +59,6 @@ class _MainPageState extends State<MainPage> {
           ],
         ),
         body: recipeList);
-
-    Provider.of<Recipe>(context, listen: false).loadJson();
 
     return myScaffold;
   }

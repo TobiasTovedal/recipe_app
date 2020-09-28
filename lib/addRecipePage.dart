@@ -1,8 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:recipe_app/mainPage.dart';
+import 'package:recipe_app/models/Recipe.dart';
+import 'package:recipe_app/storage/storage.dart' as storage;
 
-class AddRecipePage extends StatelessWidget {
+class AddRecipePage extends StatefulWidget {
+  @override
+  _AddRecipePageState createState() => _AddRecipePageState();
+}
+
+class _AddRecipePageState extends State<AddRecipePage> {
+  Recipe recipe;
+
+  @override
+  void initState() {
+    loadRecipeData();
+    super.initState();
+  }
+
+  void loadRecipeData() async {
+    recipe = await storage.loadRecipe();
+  }
+
   Widget build(BuildContext context) {
     final titleController = TextEditingController();
     final ingredientController = TextEditingController();
@@ -28,19 +47,13 @@ class AddRecipePage extends StatelessWidget {
     );
 
     return Scaffold(
-        appBar: AppBar(
-          title: Consumer<Recipe>(builder: (context, recipe, child) {
-            print(recipe.title);
-            print(recipe.ingredient);
-            return Text('${recipe.title} + ${recipe.ingredient}');
-          }),
-        ),
+        appBar: AppBar(title: Text('Texxt')),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            //print(titleController.text);
+            recipe.title = titleController.text;
+            recipe.ingredient = ingredientController.text;
+            storage.saveRecipe(recipe);
             Navigator.pop(context);
-            Provider.of<Recipe>(context, listen: false)
-                .setJson(titleController.text, ingredientController.text);
           },
           child: Icon(Icons.check),
         ),
