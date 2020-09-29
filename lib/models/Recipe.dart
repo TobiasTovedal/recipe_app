@@ -10,4 +10,9 @@ class Recipe {
         ingredient = json['ingredient'];
 
   Map<String, dynamic> toJson() => {'title': title, 'ingredient': ingredient};
+
+  @override
+  String toString() {
+    return this.toJson().toString();
+  }
 }

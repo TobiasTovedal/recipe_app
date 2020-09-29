@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_app/addRecipePage.dart';
 import 'package:recipe_app/recipePage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:recipe_app/storage/storage.dart' as storage;
 
 class MainPage extends StatefulWidget {
   @override
@@ -65,7 +67,7 @@ class _MainPageState extends State<MainPage> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
+    storage.clear();
     super.dispose();
   }
 }
