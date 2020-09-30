@@ -11,7 +11,7 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  Recipies recipies;
+  Recipies recipies = new Recipies();
   final List entries = [
     'Köttbullar',
     'Pad Thai',
@@ -52,7 +52,7 @@ class _MainPageState extends State<MainPage> {
           );
         },
         separatorBuilder: (BuildContext context, int index) => const Divider(),
-        itemCount: entries.length);
+        itemCount: recipies.list.length);
 
     Widget myScaffold = Scaffold(
         appBar: AppBar(
