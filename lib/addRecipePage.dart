@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:recipe_app/models/ListOfRecipies.dart';
+import 'package:recipe_app/models/Recipies.dart';
 import 'package:recipe_app/models/Recipe.dart';
 import 'package:recipe_app/storage/storage.dart' as storage;
 
@@ -10,7 +10,7 @@ class AddRecipePage extends StatefulWidget {
 
 class _AddRecipePageState extends State<AddRecipePage> {
   Recipe recipe;
-  ListOfRecipies listOfRecipies;
+  Recipies recipies;
 
   @override
   void initState() {
@@ -20,8 +20,8 @@ class _AddRecipePageState extends State<AddRecipePage> {
 
   void loadRecipeData() async {
     recipe = await storage.loadRecipe();
-    listOfRecipies = await storage.loadListOfRecipies();
-    print(listOfRecipies.list.map((recipe) => recipe.toString()));
+    recipies = await storage.loadListOfRecipies();
+    print(recipies.list.map((recipe) => recipe.toString()));
   }
 
   Widget build(BuildContext context) {
@@ -54,9 +54,9 @@ class _AddRecipePageState extends State<AddRecipePage> {
           onPressed: () {
             recipe.title = titleController.text;
             recipe.ingredient = ingredientController.text;
-            listOfRecipies.add(recipe);
+            recipies.list.add(recipe);
             storage.saveRecipe(recipe);
-            storage.saveListOfRecipies(listOfRecipies);
+            storage.saveListOfRecipies(recipies);
             Navigator.pop(context);
           },
           child: Icon(Icons.check),

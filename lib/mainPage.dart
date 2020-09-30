@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_app/addRecipePage.dart';
+import 'package:recipe_app/models/Recipies.dart';
 import 'package:recipe_app/recipePage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:recipe_app/storage/storage.dart' as storage;
@@ -10,6 +11,7 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
+  Recipies recipies;
   final List entries = [
     'Köttbullar',
     'Pad Thai',
@@ -18,8 +20,13 @@ class _MainPageState extends State<MainPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
+    loadRecipeData();
     super.initState();
+  }
+
+  void loadRecipeData() async {
+    recipies = await storage.loadListOfRecipies();
+    //print(recipies.list.map((recipe) => recipe.toString()));
   }
 
   @override
@@ -37,7 +44,7 @@ class _MainPageState extends State<MainPage> {
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  '${entries[index]}',
+                  '${recipies.list[index].title}',
                   style: Theme.of(context).textTheme.headline6,
                 ),
               ),
@@ -67,7 +74,7 @@ class _MainPageState extends State<MainPage> {
 
   @override
   void dispose() {
-    storage.clear();
+    // Kallas aldrig :( whats up?
     super.dispose();
   }
 }

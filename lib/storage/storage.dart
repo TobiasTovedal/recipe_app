@@ -1,5 +1,5 @@
 import 'package:recipe_app/models/Recipe.dart';
-import 'package:recipe_app/models/ListOfRecipies.dart';
+import 'package:recipe_app/models/Recipies.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 
@@ -16,7 +16,7 @@ loadRecipe() async {
   return Recipe();
 }
 
-saveListOfRecipies(ListOfRecipies recipesList) async {
+saveListOfRecipies(Recipies recipesList) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   await prefs.setString('recipes', json.encode(recipesList.toJson()));
 }
@@ -24,9 +24,9 @@ saveListOfRecipies(ListOfRecipies recipesList) async {
 loadListOfRecipies() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   if (prefs.containsKey('recipes')) {
-    return ListOfRecipies.fromJson(json.decode(prefs.getString('recipes')));
+    return Recipies.fromJson(json.decode(prefs.getString('recipes')));
   }
-  return ListOfRecipies();
+  return Recipies();
 }
 
 clear() async {
