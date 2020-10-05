@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:recipe_app/models/Recipe.dart';
 
 class RecipePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    Container _returnStep(String stringLabel, int stepNumber) {
+    final Recipe recipe = ModalRoute.of(context).settings.arguments;
+
+    Container step(String stringLabel, int stepNumber) {
       return Container(
-        padding: const EdgeInsets.fromLTRB(0, 24, 0, 50),
+        padding: const EdgeInsets.fromLTRB(0, 24, 0, 0),
         child: Row(
           children: [
-            Icon(
-              Icons.looks_one,
-              color: Colors.green,
-            ),
             Container(
                 padding: const EdgeInsets.only(left: 8),
                 child: Text('$stepNumber. $stringLabel'))
@@ -31,7 +30,7 @@ class RecipePage extends StatelessWidget {
         Container(
           padding: const EdgeInsets.fromLTRB(12, 16, 8, 16),
           child: Text(
-            'Köttbullar med potatismos',
+            recipe.title,
             style: Theme.of(context).textTheme.headline5,
           ),
         ),
@@ -39,13 +38,7 @@ class RecipePage extends StatelessWidget {
           padding: const EdgeInsets.only(left: 16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('800 g köttfärs \n'
-                  '2 dl grädde \n'
-                  '1 dl ströbröd \n'
-                  '4 st ägg'),
-              _returnStep('Blanda allting i en stor bunke', 1)
-            ],
+            children: [Text(recipe.ingredient), step('', 1), step('', 2)],
           ),
         ),
       ],

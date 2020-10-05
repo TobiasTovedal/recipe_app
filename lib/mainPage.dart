@@ -20,12 +20,13 @@ class _MainPageState extends State<MainPage> {
 
   @override
   void initState() {
-    loadRecipeData();
     super.initState();
+    loadRecipeData();
   }
 
   void loadRecipeData() async {
     recipies = await storage.loadListOfRecipies();
+    setState(() {});
     //print(recipies.list.map((recipe) => recipe.toString()));
   }
 
@@ -36,18 +37,25 @@ class _MainPageState extends State<MainPage> {
         itemBuilder: (BuildContext context, int index) {
           return InkWell(
             onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => RecipePage()));
+              Navigator.pushNamed(context, '/recipePage',
+                  arguments: recipies.list[index]);
             },
             child: Container(
               height: 50,
               child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  '${recipies.list[index].title}',
-                  style: Theme.of(context).textTheme.headline6,
-                ),
-              ),
+                  alignment: Alignment.centerLeft,
+                  child: Column(
+                    children: [
+                      Text(
+                        '${recipies.list[index].title}',
+                        style: Theme.of(context).textTheme.headline6,
+                      ),
+                      Text(
+                        '${recipies.list[index].ingredient}',
+                        style: Theme.of(context).textTheme.headline6,
+                      )
+                    ],
+                  )),
             ),
           );
         },
@@ -61,8 +69,12 @@ class _MainPageState extends State<MainPage> {
             IconButton(
               icon: Icon(Icons.add),
               onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => AddRecipePage()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => AddRecipePage(
+                              onReturnCallback: () => setState(() {}),
+                            )));
               },
             )
           ],
@@ -74,7 +86,7 @@ class _MainPageState extends State<MainPage> {
 
   @override
   void dispose() {
-    // Kallas aldrig :( whats up?
     super.dispose();
+    print('dispose');
   }
 }
