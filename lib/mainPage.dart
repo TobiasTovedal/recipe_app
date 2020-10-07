@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_app/addRecipePage.dart';
 import 'package:recipe_app/models/Recipies.dart';
-import 'package:recipe_app/recipePage.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:recipe_app/storage/storage.dart' as storage;
+import 'package:flutter/foundation.dart';
 
 class MainPage extends StatefulWidget {
   @override
@@ -12,11 +11,6 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   Recipies recipies = new Recipies();
-  final List entries = [
-    'Köttbullar',
-    'Pad Thai',
-    'Grönsakssoppa',
-  ];
 
   @override
   void initState() {
@@ -30,32 +24,50 @@ class _MainPageState extends State<MainPage> {
     //print(recipies.list.map((recipe) => recipe.toString()));
   }
 
+  void moreOnPressed() {
+    print('more pressed');
+  }
+
+  void recipeTapped(index) {
+    Navigator.pushNamed(context, '/recipePage',
+        arguments: recipies.list[index]);
+  }
+
+/*   onDismissed: (direction) {
+    // Remove the item from the data source.
+    setState(() {
+      items.removeAt(index);
+    });
+*/
   @override
   Widget build(BuildContext context) {
     Widget recipeList = ListView.separated(
-        padding: EdgeInsets.all(8),
+        padding: EdgeInsets.fromLTRB(0, 8, 0, 0),
         itemBuilder: (BuildContext context, int index) {
-          return InkWell(
-            onTap: () {
-              Navigator.pushNamed(context, '/recipePage',
-                  arguments: recipies.list[index]);
+          return Dismissible(
+            key: Key(recipies.list[index].title),
+            child: ListTile(
+                title: Text('${recipies.list[index].title}'),
+                subtitle: Text('${recipies.list[index].ingredient}'),
+                trailing: IconButton(
+                    icon: Icon(Icons.more_vert),
+                    onPressed: () => recipeTapped(index))),
+            onDismissed: (direction) {
+              setState(() {
+                Scaffold.of(context).showSnackBar(SnackBar(
+                    content: Text("${recipies.list[index].title} dismissed")));
+                recipies.list.removeAt(index);
+              });
             },
-            child: Container(
-              height: 50,
-              child: Align(
+            background: Container(
+              color: Colors.red,
+              child: Container(
+                padding: EdgeInsets.fromLTRB(16, 0, 0, 0),
+                child: Align(
                   alignment: Alignment.centerLeft,
-                  child: Column(
-                    children: [
-                      Text(
-                        '${recipies.list[index].title}',
-                        style: Theme.of(context).textTheme.headline6,
-                      ),
-                      Text(
-                        '${recipies.list[index].ingredient}',
-                        style: Theme.of(context).textTheme.headline6,
-                      )
-                    ],
-                  )),
+                  child: Text('DELETE'),
+                ),
+              ),
             ),
           );
         },
