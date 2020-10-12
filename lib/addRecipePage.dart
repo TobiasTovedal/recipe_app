@@ -4,20 +4,13 @@ import 'package:recipe_app/models/Recipe.dart';
 import 'package:recipe_app/storage/storage.dart' as storage;
 
 class AddRecipePage extends StatefulWidget {
-  final VoidCallback onReturnCallback;
-  AddRecipePage({this.onReturnCallback});
-
   @override
-  _AddRecipePageState createState() =>
-      _AddRecipePageState(onReturnCallback: onReturnCallback);
+  _AddRecipePageState createState() => _AddRecipePageState();
 }
 
 class _AddRecipePageState extends State<AddRecipePage> {
   Recipe recipe;
   Recipies recipies;
-  final VoidCallback onReturnCallback;
-
-  _AddRecipePageState({this.onReturnCallback});
 
   @override
   void initState() {
@@ -64,7 +57,6 @@ class _AddRecipePageState extends State<AddRecipePage> {
             //recipies.list.add(recipe);
             storage.saveRecipe(recipe);
             storage.saveListOfRecipies(recipies);
-            onReturnCallback();
             Navigator.pop(context, recipe);
           },
           child: Icon(Icons.check),

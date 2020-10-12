@@ -39,13 +39,7 @@ class _MainPageState extends State<MainPage> {
 
   void _navigateAndAddRecipe(BuildContext context) async {
     final Recipe recipe = await Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => AddRecipePage(
-                  onReturnCallback: () => setState(() {
-                    // troligtvis onödig setState?
-                  }),
-                )));
+        context, MaterialPageRoute(builder: (context) => AddRecipePage()));
 
     setState(() {
       recipies.list.add(recipe);
