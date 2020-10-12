@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_app/addRecipePage.dart';
+import 'package:recipe_app/models/Recipe.dart';
 import 'package:recipe_app/models/Recipies.dart';
 import 'package:recipe_app/storage/storage.dart' as storage;
 import 'package:flutter/foundation.dart';
@@ -21,7 +22,10 @@ class _MainPageState extends State<MainPage> {
   void loadRecipeData() async {
     recipies = await storage.loadListOfRecipies();
     setState(() {});
-    //print(recipies.list.map((recipe) => recipe.toString()));
+  }
+
+  void saveRecipeData(recipies) async {
+    await storage.saveListOfRecipies(recipies);
   }
 
   void moreOnPressed() {
@@ -33,12 +37,21 @@ class _MainPageState extends State<MainPage> {
         arguments: recipies.list[index]);
   }
 
-/*   onDismissed: (direction) {
-    // Remove the item from the data source.
+  void _navigateAndAddRecipe(BuildContext context) async {
+    final Recipe recipe = await Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => AddRecipePage(
+                  onReturnCallback: () => setState(() {
+                    // troligtvis onödig setState?
+                  }),
+                )));
+
     setState(() {
-      items.removeAt(index);
+      recipies.list.add(recipe);
     });
-*/
+  }
+
   @override
   Widget build(BuildContext context) {
     Widget recipeList = ListView.separated(
@@ -57,6 +70,7 @@ class _MainPageState extends State<MainPage> {
                 Scaffold.of(context).showSnackBar(SnackBar(
                     content: Text("${recipies.list[index].title} dismissed")));
                 recipies.list.removeAt(index);
+                storage.saveListOfRecipies(recipies);
               });
             },
             background: Container(
@@ -81,12 +95,7 @@ class _MainPageState extends State<MainPage> {
             IconButton(
               icon: Icon(Icons.add),
               onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => AddRecipePage(
-                              onReturnCallback: () => setState(() {}),
-                            )));
+                _navigateAndAddRecipe(context);
               },
             )
           ],
