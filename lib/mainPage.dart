@@ -43,6 +43,7 @@ class _MainPageState extends State<MainPage> {
 
     setState(() {
       recipies.list.add(recipe);
+      saveRecipeData(recipies);
     });
   }
 
@@ -56,9 +57,15 @@ class _MainPageState extends State<MainPage> {
             child: ListTile(
                 title: Text('${recipies.list[index].title}'),
                 subtitle: Text('${recipies.list[index].ingredient}'),
-                trailing: IconButton(
-                    icon: Icon(Icons.more_vert),
-                    onPressed: () => recipeTapped(index))),
+                onTap: () => recipeTapped(index),
+                leading: ClipOval(
+                  child: Container(
+                    height: 50,
+                    width: 50,
+                    color: Colors.lightGreen[50],
+                    child: Icon(Icons.description),
+                  ),
+                )),
             onDismissed: (direction) {
               setState(() {
                 Scaffold.of(context).showSnackBar(SnackBar(
@@ -68,18 +75,16 @@ class _MainPageState extends State<MainPage> {
               });
             },
             background: Container(
-              color: Colors.red,
-              child: Container(
-                padding: EdgeInsets.fromLTRB(16, 0, 0, 0),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text('DELETE'),
-                ),
-              ),
-            ),
+                color: Colors.red,
+                alignment: Alignment.center,
+                child: ListTile(
+                  leading: Icon(Icons.delete_forever),
+                  trailing: Icon(Icons.delete_forever),
+                )),
           );
         },
-        separatorBuilder: (BuildContext context, int index) => const Divider(),
+        separatorBuilder: (BuildContext context, int index) =>
+            const Divider(indent: 20, endIndent: 20, height: 1),
         itemCount: recipies.list.length);
 
     Widget myScaffold = Scaffold(
@@ -87,7 +92,7 @@ class _MainPageState extends State<MainPage> {
           title: Text('Recipeee app'),
           actions: [
             IconButton(
-              icon: Icon(Icons.add),
+              icon: Icon(Icons.create),
               onPressed: () {
                 _navigateAndAddRecipe(context);
               },

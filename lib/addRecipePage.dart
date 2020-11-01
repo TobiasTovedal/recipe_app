@@ -54,9 +54,6 @@ class _AddRecipePageState extends State<AddRecipePage> {
           onPressed: () {
             recipe.title = titleController.text;
             recipe.ingredient = ingredientController.text;
-            //recipies.list.add(recipe);
-            storage.saveRecipe(recipe);
-            storage.saveListOfRecipies(recipies);
             Navigator.pop(context, recipe);
           },
           child: Icon(Icons.check),
@@ -64,3 +61,5 @@ class _AddRecipePageState extends State<AddRecipePage> {
         body: formList);
   }
 }
+
+// DIN YT:kk7XtHu8qn
